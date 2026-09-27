@@ -137,19 +137,20 @@
                 const validLvl1 = ["6259", "2956", "5962", "2695"];
                 if (validLvl1.includes(code)) {
                     isCorrect = true;
-                    message = "Richtig! Das Schloss öffnet sich zwar noch nicht, aber ihr seid auf dem richtigen Weg.<br><br>
-                        <strong>Hinweis für den Raum:</strong><br>
-Es wär auch zu leicht<br>
-schon nach einem Versuch<br>
-das Rätsel wär gelöst.<br>
-<br>
-So sucht hier im Raum<br>
-nach dem nächsten Schritt –<br>
-der wartet schon auf euch.<br>
-<br>
-Ihr findet mich<br>
-unter diesem Tisch<br>
-Der nicht zu groß euch erscheint.";
+                    message = "Richtig! Das Schloss öffnet sich zwar noch nicht, aber ihr seid auf dem richtigen Weg.<br><br>";
+                    
+                    message+="<strong>Hinweis für den Raum:</strong><br>";
+                    messsge+="Es wär auch zu leicht<br>";
+                    messsge+="schon nach einem Versuch<br>";
+                    messsge+="das Rätsel wär gelöst.<br><br>";
+
+                    messsge+="So sucht hier im Raum<br>";
+                    messsge+="nach dem nächsten Schritt –<br>";
+                    messsge+="der wartet schon auf euch.<br><br>";
+                    
+                    messsge+="Ihr findet mich<br>";
+                    messsge+="unter diesem Tisch<br>";
+                    messsge+="Der nicht zu groß euch erscheint.";
                     unlockLevel(2);
                 }
                 break;
