@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape-Gottesdienst: Code-Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        select:disabled {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+            text-align: left;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Escape-Gottesdienst</h1>
+    
+    <div class="form-group">
+        <label for="levelSelect">Aktuelles Level:</label>
+        <select id="levelSelect">
+            <option value="1">Level 1</option>
+            <option value="2" disabled>Level 2 (gesperrt)</option>
+            <option value="3" disabled>Level 3 (gesperrt)</option>
+            <option value="4" disabled>Level 4 (gesperrt)</option>
+            <option value="5" disabled>Level 5 - Finale (gesperrt)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="codeInput">Dein ermittelter Code:</label>
+        <input type="text" id="codeInput" placeholder="Code eingeben..." autocomplete="off">
+    </div>
+
+    <button onclick="checkCode()">Code überprüfen</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    // Speichert, bis zu welchem Level freigeschaltet wurde
+    let maxUnlockedLevel = 1;
+
+    function checkCode() {
+        const levelSelect = document.getElementById("levelSelect");
+        const level = levelSelect.value;
+        const code = document.getElementById("codeInput").value.trim();
+        const resultDiv = document.getElementById("result");
+        
+        resultDiv.style.display = "block";
+        resultDiv.className = "";
+
+        let isCorrect = false;
+        let message = "";
+
+        switch(level) {
+            case "1":
+                const validLvl1 = ["6259", "2956", "5962", "2695"];
+                if (validLvl1.includes(code)) {
+                    isCorrect = true;
+                    message = "Richtig! Das Schloss öffnet sich zwar noch nicht, aber ihr seid auf dem richtigen Weg.<br><br><strong>Hinweis für den Raum:</strong> Sucht unter dem Tisch nach dem nächsten Schritt!";
+                    unlockLevel(2);
+                }
+                break;
+
+            case "2":
+                const validLvl2 = ["4037", "0734", "3740", "0473"];
+                if (validLvl2.includes(code)) {
+                    isCorrect = true;
+                    message = "Richtig! Wieder ein Schritt geschafft.<br><br><strong>Hinweis für den Raum:</strong> Sucht am Kühlschrank nach Hinweis Numero 3!";
+                    unlockLevel(3);
+                }
+                break;
+
+            case "3":
+                const validLvl3 = ["5126", "1625", "2651", "1562"];
+                if (validLvl3.includes(code)) {
+                    isCorrect = true;
+                    message = "Richtig! Die Zahlen nähern sich an.<br><br><strong>Hinweis für Level 4:</strong> Sortiert nun die Ziffern eures aktuellen Ergebnisses der Größe nach (absteigend)!";
+                    unlockLevel(4);
+                }
+                break;
+
+            case "4":
+                if (code === "6521") {
+                    isCorrect = true;
+                    message = "Genial! Alle Wege führen hier zusammen.<br><br><strong>Hinweis für das Finale (Level 5):</strong> Wendet die INRI-Regel an (Buchstabenwerte A=1, B=2..., bei Werten über 10 zählt nur die Einerstelle) und addiert sie ziffernweise hinzu!";
+                    unlockLevel(5);
+                }
+                break;
+
+            case "5":
+                if (code === "5900") {
+                    isCorrect = true;
+                    message = "🎉 HERZLICHEN GLÜCKWUNSCH! Das Schloss ist geknackt!<br><br>Öffnet die Werkzeugtasche, holt die Bibel heraus und stimmt das gemeinsame Lied an. Danach entdecken wir gemeinsam den Text (Markus 1,14-20)!";
+                }
+                break;
+        }
+
+        if (isCorrect) {
+            resultDiv.className = "success";
+            resultDiv.innerHTML = message;
+            document.getElementById("codeInput").value = ""; // Eingabefeld leeren
+        } else {
+            resultDiv.className = "error";
+            resultDiv.innerHTML = "Das ist leider noch nicht ganz richtig für dieses Level. Überprüft eure Rechenschritte oder sucht weiter im Raum!";
+        }
+    }
+
+    function unlockLevel(nextLevel) {
+        if (nextLevel > maxUnlockedLevel && nextLevel <= 5) {
+            maxUnlockedLevel = nextLevel;
+            const select = document.getElementById("levelSelect");
+            const option = select.options[nextLevel - 1]; // Index ist 0-basiert
+            
+            // Option aktivieren und Text anpassen
+            option.disabled = false;
+            if (nextLevel === 5) {
+                option.text = "Level 5 - Finale";
+            } else {
+                option.text = "Level " + nextLevel;
+            }
+            
+            // Direkt auf das neue Level umschalten
+            select.value = nextLevel;
+        }
+    }
+</script>
+
+</body>
+</html>
