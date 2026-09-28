@@ -117,9 +117,17 @@
 </div>
 
 <script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+    
     // Speichert, bis zu welchem Level freigeschaltet wurde
     let maxUnlockedLevel = 1;
-
+    unlockLevel (parseInt(getUrlParameter('L')) || 1);
+    
     function checkCode() {
         const levelSelect = document.getElementById("levelSelect");
         const level = levelSelect.value;
@@ -131,6 +139,8 @@
 
         let isCorrect = false;
         let message = "";
+
+        
 
         switch(level) {
             case "1":
@@ -151,7 +161,7 @@
                     message+="Ihr findet mich<br>";
                     message+="unter diesem Tisch<br>";
                     message+="Der nicht zu groß euch erscheint.";
-                    unlockLevel(2);
+                    // unlockLevel(2);
                 }
                 break;
 
@@ -160,7 +170,7 @@
                 if (validLvl2.includes(code)) {
                     isCorrect = true;
                     message = "Richtig! Wieder ein Schritt geschafft.<br><br><strong>Hinweis für das nächste Level:</strong> Sucht am Kühlschrank nach Hinweis Numero 3!";
-                    unlockLevel(3);
+                    // unlockLevel(3);
                 }
                 break;
 
@@ -169,7 +179,7 @@
                 if (validLvl3.includes(code)) {
                     isCorrect = true;
                     message = "Richtig! Die Zahlen nähern sich an.<br><br><strong>Hinweis für das nächste Level:</strong> Sortiert nun die Ziffern eures aktuellen Ergebnisses der Größe nach (absteigend)!";
-                    unlockLevel(4);
+                    // unlockLevel(4);
                 }
                 break;
 
@@ -177,7 +187,7 @@
                 if (code === "6521") {
                     isCorrect = true;
                     message = "Genial! Alle Wege führen hier zusammen.<br><br><strong>Hinweis für das nächste Level::</strong> Wendet die INRI-Regel an (Buchstabenwerte A=1, B=2..., bei Werten über 10 zählt nur die Einerstelle) und addiert sie ziffernweise hinzu!";
-                    unlockLevel(5);
+                    // unlockLevel(5);
                 }
                 break;
 
@@ -199,23 +209,29 @@
         }
     }
 
-    function unlockLevel(nextLevel) {
-        if (nextLevel > maxUnlockedLevel && nextLevel <= 5) {
-            maxUnlockedLevel = nextLevel;
-            const select = document.getElementById("levelSelect");
-            const option = select.options[nextLevel - 1]; // Index ist 0-basiert
-            
-            // Option aktivieren und Text anpassen
-            option.disabled = false;
-            if (nextLevel === 5) {
-                option.text = "Level 5 - Finale";
-            } else {
-                option.text = "Level " + nextLevel;
+    function unlockLevel(targetLevel) {
+        const select = document.getElementById("levelSelect");
+
+        // Gehe alle Level von 1 bis zum Ziel-Level durch
+        for (let i = 1; i <= targetLevel && i <= 5; i++) {
+            if (i > maxUnlockedLevel) {
+                maxUnlockedLevel = i;
             }
-            
-            // Direkt auf das neue Level umschalten
-            select.value = nextLevel;
+
+            const option = select.options[i - 1]; // Index ist 0-basiert
+            if (option) {
+                // Option aktivieren und Text anpassen
+                option.disabled = false;
+                if (i === 5) {
+                    option.text = "Level 5 - Finale";
+                } else {
+                    option.text = "Level " + i;
+                }
+            }
         }
+
+    // Direkt auf das höchste freigeschaltete Level umschalten
+    select.value = maxUnlockedLevel;
     }
 </script>
 
