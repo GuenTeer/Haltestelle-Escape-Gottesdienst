@@ -125,12 +125,12 @@
     }
     
     // Speichert, bis zu welchem Level freigeschaltet wurde
-    let maxUnlockedLevel = 1;
+    
     let auto=false;
-    unlockLevel (parseInt(getUrlParameter('L')) || 0);
-    if (unlockLevel==0) {
+    let maxUnlockedLevel=unlockLevel (parseInt(getUrlParameter('L')) || 0);
+    if (MaxUnlockLevel==0) {
         auto=true;
-        unlockLevel=1;
+        MaxUnlockLevel=1;
     }
     
     function checkCode() {
