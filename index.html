@@ -126,7 +126,12 @@
     
     // Speichert, bis zu welchem Level freigeschaltet wurde
     let maxUnlockedLevel = 1;
-    unlockLevel (parseInt(getUrlParameter('L')) || 1);
+    let auto=false;
+    unlockLevel (parseInt(getUrlParameter('L')) || 0);
+    if (unlockLevel==0) {
+        auto=true;
+        unlockLevel=1;
+    }
     
     function checkCode() {
         const levelSelect = document.getElementById("levelSelect");
@@ -161,16 +166,15 @@
                     message+="Ihr findet mich<br>";
                     message+="unter diesem Tisch<br>";
                     message+="Der nicht zu groß euch erscheint.";
-                    // unlockLevel(2);
-                }
+                    if (auto) { unlockLevel(2); }
                 break;
 
             case "2":
                 const validLvl2 = ["4037", "0734", "3740", "0473"];
                 if (validLvl2.includes(code)) {
                     isCorrect = true;
-                    message = "Richtig! Wieder ein Schritt geschafft.<br><br><strong>Hinweis für das nächste Level:</strong> Sucht am Kühlschrank nach Hinweis Numero 3!";
-                    // unlockLevel(3);
+                    message = "Richtig! Wieder ein Schritt geschafft.<br><br><strong>Hinweis für das nächste Level:</strong><br><br>Dort, wo viele verderben den Brei?<br>Sucht nach Hinweis Numero 3.<br><br> ";
+                    if (auto) { unlockLevel(3); }
                 }
                 break;
 
@@ -178,8 +182,8 @@
                 const validLvl3 = ["5180", "1058", "5801", "0185"];
                 if (validLvl3.includes(code)) {
                     isCorrect = true;
-                    message = "Richtig! Die Zahlen nähern sich an.<br><br><strong>Hinweis für das nächste Level:</strong> Sortiert nun die Ziffern eures aktuellen Ergebnisses der Größe nach (absteigend)!";
-                    // unlockLevel(4);
+                    message = "Richtig! Die Zahlen nähern sich an.<br><br><strong>Hinweis für das nächste Level:</strong><br><br>AB - END - FALL - RE - SOR - TIE";
+                    if (auto) { unlockLevel(4); }
                 }
                 break;
 
@@ -187,7 +191,7 @@
                 if (code === "8510") {
                     isCorrect = true;
                     message = "Genial! Alle Wege führen hier zusammen.<br><br><strong>Hinweis für das nächste Level::</strong> Wendet die INRI-Regel an (Buchstabenwerte A=1, B=2..., bei Werten über 10 zählt nur die Einerstelle) und addiert sie ziffernweise hinzu!";
-                    // unlockLevel(5);
+                    if (auto) { unlockLevel(5); }
                 }
                 break;
 
