@@ -127,8 +127,8 @@
     // Speichert, bis zu welchem Level freigeschaltet wurde
     
     let auto=false;
-    let maxUnlockedLevel=parseInt(getUrlParameter('L')) || 0;
-    if (maxUnlockedLevel==0) {
+    let maxUnlockedLevel=parseInt(getUrlParameter('L')) || 0; alert (maxUnlockedLevel);
+    if (maxUnlockedLevel==0) { alert (0);
         auto=true;
         maxUnlockedLevel=1;
     }
@@ -214,7 +214,7 @@
         }
     }
 
-    function unlockLevel(targetLevel) {
+    function unlockLevel(targetLevel) { alert (targetLevel);
         const select = document.getElementById("levelSelect");
 
         // Gehe alle Level von 1 bis zum Ziel-Level durch
