@@ -128,9 +128,9 @@
     
     let auto=false;
     let maxUnlockedLevel=unlockLevel (parseInt(getUrlParameter('L')) || 0);
-    if (maxUnlockLevel==0) {
+    if (maxUnlockedLevel==0) {
         auto=true;
-        maxUnlockLevel=1;
+        maxUnlockedLevel=1;
     }
     
     function checkCode() {
