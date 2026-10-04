@@ -89,9 +89,8 @@
 </head>
 <body>
 
-   
 <div class="container">
-    <h3>HALTESTELLE LIEBFRAUEN</h3    >
+    <h3>HALTESTELLE LIEBFRAUEN</h3>
     <h1>Escape-Gottesdienst</h1>
     <h3>Codeprüfer</h3>
     
@@ -99,7 +98,7 @@
         <label for="levelSelect">Aktuelles Level:</label>
         <select id="levelSelect">
             <option value="1">Level 1</option>
-            <option value="2" disabled>  </option>
+            <option value="2" disabled>   </option>
             <option value="3" disabled>   </option>
             <option value="4" disabled>    </option>
             <option value="5" disabled>     </option>
@@ -125,14 +124,16 @@
     }
     
     // Speichert, bis zu welchem Level freigeschaltet wurde
+    let auto = false;
+    let maxUnlockedLevel = (parseInt(getUrlParameter('L')) || 1); 
     
-    let auto=false;
-    let maxUnlockedLevel=(parseInt(getUrlParameter('L')) || 1); alert (maxUnlockedLevel);
-    if (maxUnlockedLevel===0) { alert (0);
-        auto=true;
-        maxUnlockedLevel=1;
+    if (maxUnlockedLevel === 0) { 
+        auto = true;
+        maxUnlockedLevel = 1;
     }
-    unlockLevel (maxUnlockedLevel);
+    
+    // Initiales Freischalten beim Laden der Seite
+    unlockLevel(maxUnlockedLevel);
     
     function checkCode() {
         const levelSelect = document.getElementById("levelSelect");
@@ -146,8 +147,6 @@
         let isCorrect = false;
         let message = "";
 
-        
-
         switch(level) {
             case "1":
                 const validLvl1 = ["6259", "2956", "5962", "2695"];
@@ -155,27 +154,33 @@
                     isCorrect = true;
                     message = "Richtig! Das Schloss öffnet sich zwar noch nicht, aber ihr seid auf dem richtigen Weg.<br><br>";
                     
-                    message+="<strong>Hinweis für das nächste Level:</strong><br>";
-                    message+="Es wär auch zu leicht<br>";
-                    message+="schon nach einem Versuch<br>";
-                    message+="das Rätsel wär gelöst.<br><br>";
+                    message += "<strong>Hinweis für das nächste Level:</strong><br>";
+                    message += "Es wär auch zu leicht<br>";
+                    message += "schon nach einem Versuch<br>";
+                    message += "das Rätsel wär gelöst.<br><br>";
 
-                    message+="So sucht hier im Raum<br>";
-                    message+="nach dem nächsten Schritt –<br>";
-                    message+="der wartet schon auf euch.<br><br>";
+                    message += "So sucht hier im Raum<br>";
+                    message += "nach dem nächsten Schritt –<br>";
+                    message += "der wartet schon auf euch.<br><br>";
                     
-                    message+="Ihr findet mich<br>";
-                    message+="unter diesem Tisch<br>";
-                    message+="Der nicht zu groß euch erscheint.";
-                    if (auto) { unlockLevel(2); }
-                break;
+                    message += "Ihr findet mich<br>";
+                    message += "unter diesem Tisch<br>";
+                    message += "Der nicht zu groß euch erscheint.";
+                    
+                    if (auto) { 
+                        unlockLevel(2); 
+                    }
+                }
+                break; // <-- HIER WAR DAS FEHLENDE BREAK
 
             case "2":
                 const validLvl2 = ["4037", "0734", "3740", "0473"];
                 if (validLvl2.includes(code)) {
                     isCorrect = true;
                     message = "Richtig! Wieder ein Schritt geschafft.<br><br><strong>Hinweis für das nächste Level:</strong><br><br>Dort, wo viele verderben den Brei?<br>Sucht nach Hinweis Numero 3.<br><br> ";
-                    if (auto) { unlockLevel(3); }
+                    if (auto) { 
+                        unlockLevel(3); 
+                    }
                 }
                 break;
 
@@ -184,15 +189,19 @@
                 if (validLvl3.includes(code)) {
                     isCorrect = true;
                     message = "Richtig! Die Zahlen nähern sich an.<br><br><strong>Hinweis für das nächste Level:</strong><br><br>AB - END - FALL - RE - SOR - TIE";
-                    if (auto) { unlockLevel(4); }
+                    if (auto) { 
+                        unlockLevel(4); 
+                    }
                 }
                 break;
 
             case "4":
                 if (code === "8510") {
                     isCorrect = true;
-                    message = "Genial! Alle Wege führen hier zusammen.<br><br><strong>Hinweis für das nächste Level::</strong> Wendet die INRI-Regel an (Buchstabenwerte A=1, B=2..., bei Werten über 10 zählt nur die Einerstelle) und addiert sie ziffernweise hinzu!";
-                    if (auto) { unlockLevel(5); }
+                    message = "Genial! Alle Wege führen hier zusammen.<br><br><strong>Hinweis für das nächste Level:</strong> Wendet die INRI-Regel an (Buchstabenwerte A=1, B=2..., bei Werten über 10 zählt nur die Einerstelle) und addiert sie ziffernweise hinzu!";
+                    if (auto) { 
+                        unlockLevel(5); 
+                    }
                 }
                 break;
 
@@ -214,7 +223,7 @@
         }
     }
 
-    function unlockLevel(targetLevel) { alert (targetLevel);
+    function unlockLevel(targetLevel) {
         const select = document.getElementById("levelSelect");
 
         // Gehe alle Level von 1 bis zum Ziel-Level durch
@@ -235,8 +244,8 @@
             }
         }
 
-    // Direkt auf das höchste freigeschaltete Level umschalten
-    select.value = maxUnlockedLevel;
+        // Direkt auf das höchste freigeschaltete Level umschalten
+        select.value = maxUnlockedLevel;
     }
 </script>
 
