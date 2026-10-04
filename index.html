@@ -125,7 +125,7 @@
     
     // Speichert, bis zu welchem Level freigeschaltet wurde
     let auto = false;
-    let maxUnlockedLevel = (parseInt(getUrlParameter('L')) || 1); 
+    let maxUnlockedLevel = (parseInt(getUrlParameter('L')) || 0); 
     
     if (maxUnlockedLevel === 0) { 
         auto = true;
